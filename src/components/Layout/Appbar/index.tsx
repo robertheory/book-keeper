@@ -90,7 +90,11 @@ const Appbar = ({ isOpen, handleDrawerOpen }: AppbarProps) => {
 					}}
 				>
 					{bookSearchResults?.docs.map((book) => (
-						<SearchResultItem key={book.key} book={book} />
+						<SearchResultItem
+							key={book.key}
+							book={book}
+							handleClear={() => setBookSearchResults(null)}
+						/>
 					))}
 				</Menu>
 			</Toolbar>

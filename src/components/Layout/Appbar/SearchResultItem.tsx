@@ -5,9 +5,10 @@ import Link from 'next/link';
 
 type SearchResultItemProps = {
 	book: BookQueryDoc;
+	handleClear: () => void;
 };
 
-const SearchResultItem = ({ book }: SearchResultItemProps) => {
+const SearchResultItem = ({ book, handleClear }: SearchResultItemProps) => {
 	const key = book.key.replace('/works/', '');
 
 	const bookLink = `/book/${key}`;
@@ -21,6 +22,7 @@ const SearchResultItem = ({ book }: SearchResultItemProps) => {
 				textDecoration: 'none',
 				color: 'inherit',
 			}}
+			onClick={handleClear}
 		>
 			<MenuItem>
 				{book.title} {book.author_name && `by ${book.author_name}`}

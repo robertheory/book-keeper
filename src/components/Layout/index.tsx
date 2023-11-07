@@ -1,5 +1,6 @@
 'use client';
 
+import { Stack } from '@mui/material';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import { styled } from '@mui/material/styles';
@@ -53,7 +54,22 @@ const Layout = ({ children }: LayoutProps) => {
 
 			<Main open={isOpen}>
 				<DrawerHeader />
-				{children}
+				<Stack
+					width="100%"
+					direction="column"
+					justifyContent="flex-start"
+					alignItems="center"
+				>
+					<Stack
+						width="100%"
+						maxWidth="800px"
+						direction="column"
+						justifyContent="flex-start"
+						alignItems="center"
+					>
+						{children}
+					</Stack>
+				</Stack>
 			</Main>
 		</Box>
 	);
