@@ -1,5 +1,5 @@
 'use client';
-import { BookQuery } from '@/intefaces';
+import { BooksQuery } from '@/intefaces';
 import { searchBooksByText } from '@/services/book';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
@@ -23,7 +23,7 @@ type AppbarProps = {
 };
 
 const Appbar = ({ isOpen, handleDrawerOpen }: AppbarProps) => {
-	const [bookSearchResults, setBookSearchResults] = useState<BookQuery | null>(
+	const [bookSearchResults, setBookSearchResults] = useState<BooksQuery | null>(
 		null
 	);
 
@@ -89,9 +89,9 @@ const Appbar = ({ isOpen, handleDrawerOpen }: AppbarProps) => {
 						'aria-labelledby': 'basic-button',
 					}}
 				>
-					{bookSearchResults?.docs.map((book) => (
+					{bookSearchResults?.items.map((book) => (
 						<SearchResultItem
-							key={book.key}
+							key={book.id}
 							book={book}
 							handleClear={() => setBookSearchResults(null)}
 						/>

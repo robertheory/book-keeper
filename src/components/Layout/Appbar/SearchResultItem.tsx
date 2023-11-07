@@ -1,23 +1,26 @@
 'use client';
-import { BookQueryDoc } from '@/intefaces';
+import { BooksQueryItem } from '@/intefaces';
 import { MenuItem } from '@mui/material';
 import Link from 'next/link';
 
 type SearchResultItemProps = {
-	book: BookQueryDoc;
+	book: BooksQueryItem;
 	handleClear: () => void;
 };
 
-const SearchResultItem = ({ book, handleClear }: SearchResultItemProps) => {
-	const key = book.key.replace('/works/', '');
-
-	const bookLink = `/book/${key}`;
+const SearchResultItem = ({
+	book: {
+		id,
+		volumeInfo: { title, authors },
+	},
+	handleClear,
+}: SearchResultItemProps) => {
+	const bookLink = `/book/${id}`;
 
 	return (
 		<Link
 			href={bookLink}
 			passHref
-			key={book.key}
 			style={{
 				textDecoration: 'none',
 				color: 'inherit',
@@ -25,7 +28,7 @@ const SearchResultItem = ({ book, handleClear }: SearchResultItemProps) => {
 			onClick={handleClear}
 		>
 			<MenuItem>
-				{book.title} {book.author_name && `by ${book.author_name}`}
+				{title} {authors && `by ${authors.join(', ')}`}
 			</MenuItem>
 		</Link>
 	);

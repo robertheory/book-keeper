@@ -1,12 +1,12 @@
-import { Author, BookQuery } from '@/intefaces';
+import { Author, BooksQuery } from '@/intefaces';
 import { Book } from '@/intefaces/Book';
 
-export const searchBooksByText = async (text: string): Promise<BookQuery> => {
-	const URI = `https://openlibrary.org/search.json?q=${text}`;
+export const searchBooksByText = async (text: string): Promise<BooksQuery> => {
+	const URI = `https://www.googleapis.com/books/v1/volumes?q=${text}`;
 
 	const response = await fetch(URI);
 
-	const data = (await response.json()) as BookQuery;
+	const data = (await response.json()) as BooksQuery;
 
 	return data;
 };
