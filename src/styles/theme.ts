@@ -7,7 +7,7 @@ export const themeOptions: ThemeOptions = {
 	palette: {
 		mode: 'light',
 		primary: {
-			main: '#faef91',
+			main: '#f7ea79',
 		},
 		secondary: {
 			main: '#fafafa',
@@ -17,7 +17,7 @@ export const themeOptions: ThemeOptions = {
 		},
 		text: {
 			primary: '#575757',
-			secondary: '#faef91',
+			secondary: '#fafafa',
 		},
 	},
 	typography: {

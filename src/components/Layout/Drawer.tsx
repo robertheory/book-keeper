@@ -1,9 +1,8 @@
 'use client';
 
+import { menuItems } from '@/data/pages';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import MailIcon from '@mui/icons-material/Mail';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import Divider from '@mui/material/Divider';
 import MaterialDrawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
@@ -13,6 +12,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { styled, useTheme } from '@mui/material/styles';
+import Link from 'next/link';
+import { createElement } from 'react';
 
 const drawerWidth = 240;
 
@@ -58,15 +59,23 @@ const Drawer = ({ handleDrawerClose, isOpen }: DrawerProps) => {
 			</DrawerHeader>
 			<Divider />
 			<List>
-				{['Favorites', 'To Read', 'Reading', 'Read'].map((text, index) => (
-					<ListItem key={text} disablePadding>
-						<ListItemButton>
-							<ListItemIcon>
-								{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-							</ListItemIcon>
-							<ListItemText primary={text} />
-						</ListItemButton>
-					</ListItem>
+				{menuItems.map(({ text, icon, path }) => (
+					<Link
+						key={text}
+						href={path}
+						passHref
+						style={{
+							textDecoration: 'none',
+							color: 'inherit',
+						}}
+					>
+						<ListItem disablePadding>
+							<ListItemButton>
+								<ListItemIcon>{createElement(icon)}</ListItemIcon>
+								<ListItemText primary={text} />
+							</ListItemButton>
+						</ListItem>
+					</Link>
 				))}
 			</List>
 		</MaterialDrawer>
