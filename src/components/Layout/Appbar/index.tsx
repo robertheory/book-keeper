@@ -1,10 +1,15 @@
 'use client';
-
+import { BookQuery } from '@/intefaces';
+import { searchBooksByText } from '@/services/book';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import { Menu } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import SearchResultItem from './SearchResultItem';
 import {
 	CustomAppBar,
 	Search,
@@ -18,6 +23,26 @@ type AppbarProps = {
 };
 
 const Appbar = ({ isOpen, handleDrawerOpen }: AppbarProps) => {
+	const [bookSearchResults, setBookSearchResults] = useState<BookQuery | null>(
+		null
+	);
+
+	const searchInputRef = useRef<HTMLDivElement>(null);
+
+	const { handleSubmit, register } = useForm({
+		defaultValues: {
+			search: '',
+		},
+	});
+
+	const onSubmit = async (data: { search: string }) => {
+		const response = await searchBooksByText(data.search);
+
+		if (response) {
+			setBookSearchResults(response);
+		}
+	};
+
 	return (
 		<CustomAppBar position="fixed" open={isOpen}>
 			<Toolbar>
@@ -39,15 +64,35 @@ const Appbar = ({ isOpen, handleDrawerOpen }: AppbarProps) => {
 					The Book Keeper
 				</Typography>
 
-				<Search>
+				<Search
+					as="form"
+					onSubmit={handleSubmit(onSubmit)}
+					ref={searchInputRef}
+				>
 					<SearchIconWrapper>
 						<SearchIcon />
 					</SearchIconWrapper>
 					<StyledInputBase
 						placeholder="Search…"
 						inputProps={{ 'aria-label': 'search' }}
+						{...register('search')}
+						name="search"
 					/>
 				</Search>
+
+				<Menu
+					id="basic-menu"
+					anchorEl={searchInputRef.current}
+					open={!!bookSearchResults}
+					onClose={() => setBookSearchResults(null)}
+					MenuListProps={{
+						'aria-labelledby': 'basic-button',
+					}}
+				>
+					{bookSearchResults?.docs.map((book) => (
+						<SearchResultItem key={book.key} book={book} />
+					))}
+				</Menu>
 			</Toolbar>
 		</CustomAppBar>
 	);

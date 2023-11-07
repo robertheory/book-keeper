@@ -3,7 +3,7 @@ import { Stack, Typography } from '@mui/material';
 import phrases from '../data/phrases.json';
 import poems from '../data/poems.json';
 
-const Home = () => {
+const Home = async () => {
 	const texts = poems.concat(phrases);
 
 	const index = Math.floor(Math.random() * texts.length);
@@ -26,6 +26,7 @@ const Home = () => {
 				fontFamily="cursive"
 				fontStyle="oblique"
 				fontWeight="800"
+				fontSize="2.5rem"
 			>
 				{text}
 			</Typography>
