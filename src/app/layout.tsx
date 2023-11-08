@@ -7,7 +7,6 @@ import AppProvider from './Context';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-	metadataBase: new URL(String(process.env.VERCEL_URL)),
 	title: 'The Book Keeper',
 	description:
 		'While you revel in books, our vigilant looks, shall keep them safe in all the nooks.',
