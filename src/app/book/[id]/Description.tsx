@@ -1,5 +1,6 @@
 'use client';
 
+import { escapeHtml } from '@/utils/formatting';
 import { Button, Typography } from '@mui/material';
 import { useState } from 'react';
 
@@ -16,7 +17,7 @@ const Description = ({ text }: DescriptionProps) => {
 		setShowFullText(!showFullText);
 	};
 
-	const description = text.replace(/<[^>]*>/g, '');
+	const description = escapeHtml(text);
 
 	const textShouldExpand = description.length > TEXT_MAX_LENGTH;
 

@@ -2,6 +2,7 @@ import { Languages } from '@/data/constants/languages';
 // eslint-disable-next-line import/extensions
 import notFoundPhrases from '@/data/notFoundPhrases.json';
 import { getBookById } from '@/services/book';
+import { escapeHtml } from '@/utils/formatting';
 import { Divider, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import Description from './Description';
@@ -62,9 +63,9 @@ export async function generateMetadata({ params: { id } }: BookProps) {
 
 	const twitter = '@appbookeeper';
 
-	const description =
-		book.volumeInfo.description ||
-		`No description available \n ${descriptionNotFoundText}
+	const description = book.volumeInfo.description
+		? escapeHtml(book.volumeInfo.description)
+		: `No description available \n ${descriptionNotFoundText}
 		`;
 
 	return {
