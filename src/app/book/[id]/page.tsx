@@ -1,6 +1,9 @@
 import { Languages } from '@/data/constants/languages';
+// eslint-disable-next-line import/extensions
+import notFoundPhrases from '@/data/notFoundPhrases.json';
 import { getBookByKey } from '@/services/book';
 import { Divider, Stack, Typography } from '@mui/material';
+import Head from 'next/head';
 import Image from 'next/image';
 import Description from './Description';
 
@@ -22,7 +25,6 @@ const Book = async ({ params: { id } }: BookProps) => {
 		title,
 		subtitle,
 		authors,
-		description,
 		publisher,
 		publishedDate,
 		industryIdentifiers,
@@ -49,137 +51,190 @@ const Book = async ({ params: { id } }: BookProps) => {
 		book.volumeInfo.language ||
 		'Unknown';
 
-	return (
-		<Stack
-			width="100%"
-			direction="row"
-			justifyContent={{
-				xs: 'center',
-				sm: 'flex-start',
-			}}
-			alignItems="flex-start"
-			flexWrap={{
-				xs: 'wrap',
-				sm: 'nowrap',
-			}}
-			gap={2}
-		>
-			{image && <Image src={image} alt={title} width={200} height={300} />}
+	const siteURL = `${process.env.VERCEL_URL}/book/${id}`;
 
+	const twitter = '@appbookeeper';
+
+	const index = Math.floor(Math.random() * notFoundPhrases.length);
+
+	const descriptionNotFoundText = notFoundPhrases[index];
+
+	const description =
+		book.volumeInfo.description ||
+		`No description available \n ${descriptionNotFoundText}
+	`;
+
+	return (
+		<>
+			<Head>
+				<title>{title} | The Book Keeper</title>
+				<meta name="description" content={description} />
+
+				<meta property="og:title" content={title} />
+				<meta property="og:description" content={description} />
+				<meta property="og:image" content={image} />
+				<meta property="og:type" content="website" />
+				<meta property="og:url" content={siteURL} />
+				<meta property="og:site_name" content="The Book Keeper" />
+
+				<meta name="twitter:title" content={title} />
+				<meta name="twitter:description" content={description} />
+				<meta name="twitter:image" content={image} />
+				<meta name="twitter:card" content="summary_large_image" />
+				<meta name="twitter:site" content={twitter} />
+				<meta name="twitter:creator" content={twitter} />
+
+				<meta name="theme-color" content="#f7ea79" />
+				<meta name="robots" content="index, follow" />
+				<meta name="googlebot" content="index, follow" />
+				<meta name="google" content="notranslate" />
+				<meta name="rating" content="general" />
+				<meta name="referrer" content="origin" />
+				<meta name="revisit-after" content="7 days" />
+				<meta name="author" content="The Book Keeper" />
+				<meta name="publisher" content="The Book Keeper" />
+				<meta name="coverage" content="Worldwide" />
+				<meta name="distribution" content="Global" />
+				<meta name="target" content="all" />
+				<meta name="audience" content="all" />
+				<meta name="expires" content="never" />
+
+				<meta name="apple-mobile-web-app-title" content="The Book Keeper" />
+				<meta name="apple-mobile-web-app-capable" content="yes" />
+				<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+				<meta name="apple-touch-fullscreen" content="yes" />
+				<meta name="apple-mobile-web-app-status-bar" content="black" />
+				<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+			</Head>
 			<Stack
 				width="100%"
-				direction="column"
-				justifyContent="flex-start"
-				alignItems="stretch"
+				direction="row"
+				justifyContent={{
+					xs: 'center',
+					sm: 'flex-start',
+				}}
+				alignItems="flex-start"
+				flexWrap={{
+					xs: 'wrap',
+					sm: 'nowrap',
+				}}
 				gap={2}
 			>
-				<Typography variant="h1" fontSize="1.8rem" fontWeight="600">
-					{title}
-				</Typography>
-
-				{subtitle && (
-					<Typography variant="h2" fontSize="1.2rem" fontWeight="400">
-						{subtitle}
-					</Typography>
-				)}
+				{image && <Image src={image} alt={title} width={200} height={300} />}
 
 				<Stack
-					direction="row"
+					width="100%"
+					direction="column"
 					justifyContent="flex-start"
-					alignItems="center"
-					gap={1}
-				>
-					by
-					{authors.map((author) => (
-						<Typography
-							fontSize="1.2rem"
-							fontStyle="oblique"
-							fontWeight="300"
-							key={author}
-						>
-							{author}
-						</Typography>
-					))}
-				</Stack>
-
-				<Typography variant="body1" fontWeight="300">
-					Published by {publisher} in {createdAt}
-				</Typography>
-
-				<Stack
-					direction="row"
-					justifyContent="flex-start"
-					alignItems="center"
+					alignItems="stretch"
 					gap={2}
 				>
-					<Typography variant="body1" fontWeight="300">
-						Language: {language}
+					<Typography variant="h1" fontSize="1.8rem" fontWeight="600">
+						{title}
 					</Typography>
 
-					<Divider orientation="vertical" flexItem />
+					{subtitle && (
+						<Typography variant="h2" fontSize="1.2rem" fontWeight="400">
+							{subtitle}
+						</Typography>
+					)}
 
-					<Typography variant="body1" fontWeight="300">
-						{pageCount} pages
-					</Typography>
-				</Stack>
-
-				{industryIdentifiers && (
 					<Stack
 						direction="row"
 						justifyContent="flex-start"
 						alignItems="center"
-						flexWrap="wrap"
-						gap={2}
+						gap={1}
 					>
-						{industryIdentifiers.map(({ type, identifier }, index) => (
-							<Stack key={identifier}>
-								<Typography variant="body1" fontWeight="300" aria-label={type}>
-									{type.replace('_', ' ')}: {identifier}
-								</Typography>
-
-								{index < industryIdentifiers.length - 1 && (
-									<Divider orientation="vertical" flexItem />
-								)}
-							</Stack>
+						by
+						{authors.map((author) => (
+							<Typography
+								fontSize="1.2rem"
+								fontStyle="oblique"
+								fontWeight="300"
+								key={author}
+							>
+								{author}
+							</Typography>
 						))}
 					</Stack>
-				)}
 
-				{categories && (
+					<Typography variant="body1" fontWeight="300">
+						Published by {publisher} in {createdAt}
+					</Typography>
+
 					<Stack
 						direction="row"
 						justifyContent="flex-start"
 						alignItems="center"
-						flexWrap="wrap"
 						gap={2}
 					>
-						{categories.map((category, index) => (
-							<Stack key={category}>
-								<Typography
-									variant="body1"
-									fontWeight="300"
-									aria-label={category}
-								>
-									{category}
-								</Typography>
+						<Typography variant="body1" fontWeight="300">
+							Language: {language}
+						</Typography>
 
-								{index < categories.length - 1 && (
-									<Divider orientation="vertical" flexItem />
-								)}
-							</Stack>
-						))}
+						<Divider orientation="vertical" flexItem />
+
+						<Typography variant="body1" fontWeight="300">
+							{pageCount} pages
+						</Typography>
 					</Stack>
-				)}
 
-				{description ? (
+					{industryIdentifiers && (
+						<Stack
+							direction="row"
+							justifyContent="flex-start"
+							alignItems="center"
+							flexWrap="wrap"
+							gap={2}
+						>
+							{industryIdentifiers.map(({ type, identifier }, index) => (
+								<Stack key={identifier}>
+									<Typography
+										variant="body1"
+										fontWeight="300"
+										aria-label={type}
+									>
+										{type.replace('_', ' ')}: {identifier}
+									</Typography>
+
+									{index < industryIdentifiers.length - 1 && (
+										<Divider orientation="vertical" flexItem />
+									)}
+								</Stack>
+							))}
+						</Stack>
+					)}
+
+					{categories && (
+						<Stack
+							direction="row"
+							justifyContent="flex-start"
+							alignItems="center"
+							flexWrap="wrap"
+							gap={2}
+						>
+							{categories.map((category, index) => (
+								<Stack key={category}>
+									<Typography
+										variant="body1"
+										fontWeight="300"
+										aria-label={category}
+									>
+										{category}
+									</Typography>
+
+									{index < categories.length - 1 && (
+										<Divider orientation="vertical" flexItem />
+									)}
+								</Stack>
+							))}
+						</Stack>
+					)}
+
 					<Description text={description} />
-				) : (
-					<Typography variant="body1" fontWeight="300">
-						No description available
-					</Typography>
-				)}
+				</Stack>
 			</Stack>
-		</Stack>
+		</>
 	);
 };
 
