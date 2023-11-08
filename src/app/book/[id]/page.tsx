@@ -15,6 +15,8 @@ export async function generateMetadata({ params: { id } }: BookProps) {
 
 	const descriptionNotFoundText = notFoundPhrases[index];
 
+	const siteURL = `${process.env.VERCEL_URL}/book/${id}`;
+
 	if (!book) {
 		return {
 			title: `Book Not Found`,
@@ -58,8 +60,6 @@ export async function generateMetadata({ params: { id } }: BookProps) {
 		imageLinks?.thumbnail ||
 		'https://dummyimage.com/200x300/a6a6a6/ffffff.png&text=No+image';
 
-	const siteURL = `${process.env.VERCEL_URL}/book/${id}`;
-
 	const twitter = '@appbookeeper';
 
 	const description =
@@ -68,7 +68,6 @@ export async function generateMetadata({ params: { id } }: BookProps) {
 		`;
 
 	return {
-		metadataBase: new URL(siteURL),
 		title: `${title} | The Book Keeper`,
 		description,
 		openGraph: {
