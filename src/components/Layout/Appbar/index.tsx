@@ -27,9 +27,13 @@ const Appbar = ({ isOpen, handleDrawerOpen }: AppbarProps) => {
 		null
 	);
 
-	const searchInputRef = useRef<HTMLDivElement>(null);
+	const searchFormRef = useRef<HTMLDivElement>(null);
 
-	const { handleSubmit, register } = useForm({
+	const {
+		handleSubmit,
+		register,
+		formState: { isSubmitting },
+	} = useForm({
 		defaultValues: {
 			search: '',
 		},
@@ -64,29 +68,28 @@ const Appbar = ({ isOpen, handleDrawerOpen }: AppbarProps) => {
 					The Book Keeper
 				</Typography>
 
-				<Search
-					as="form"
-					onSubmit={handleSubmit(onSubmit)}
-					ref={searchInputRef}
-				>
+				<Search as="form" onSubmit={handleSubmit(onSubmit)} ref={searchFormRef}>
 					<SearchIconWrapper>
-						<SearchIcon />
+						<SearchIcon color="action" />
 					</SearchIconWrapper>
 					<StyledInputBase
+						{...register('search', {
+							disabled: isSubmitting,
+						})}
+						name="search"
 						placeholder="Search…"
 						inputProps={{ 'aria-label': 'search' }}
-						{...register('search')}
-						name="search"
+						autoComplete="off"
 					/>
 				</Search>
 
 				<Menu
-					id="basic-menu"
-					anchorEl={searchInputRef.current}
+					id="results-menu"
+					anchorEl={searchFormRef.current}
 					open={!!bookSearchResults}
 					onClose={() => setBookSearchResults(null)}
 					MenuListProps={{
-						'aria-labelledby': 'basic-button',
+						'aria-labelledby': 'results-menu',
 					}}
 				>
 					{bookSearchResults?.items.map((book) => (
