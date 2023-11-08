@@ -9,20 +9,20 @@ export interface BooksQueryItem {
 	id: string;
 	etag: string;
 	selfLink: string;
-	volumeInfo: VolumeInfo;
-	saleInfo: SaleInfo;
-	accessInfo: AccessInfo;
-	searchInfo: SearchInfo;
+	volumeInfo: BooksQueryVolumeInfo;
+	saleInfo: BooksQuerySaleInfo;
+	accessInfo: BooksQueryAccessInfo;
+	searchInfo: BooksQuerySearchInfo;
 }
 
-export interface VolumeInfo {
+export interface BooksQueryVolumeInfo {
 	title: string;
 	authors: string[];
 	publisher?: string;
 	publishedDate: string;
 	description: string;
-	industryIdentifiers: IndustryIdentifier[];
-	readingModes: ReadingModes;
+	industryIdentifiers: BooksQueryIndustryIdentifier[];
+	readingModes: BooksQueryReadingModes;
 	pageCount: number;
 	printType: string;
 	categories: string[];
@@ -31,8 +31,8 @@ export interface VolumeInfo {
 	maturityRating: string;
 	allowAnonLogging: boolean;
 	contentVersion: string;
-	panelizationSummary: PanelizationSummary;
-	imageLinks: ImageLinks;
+	panelizationSummary: BooksQueryPanelizationSummary;
+	imageLinks: BooksQueryImageLinks;
 	language: string;
 	previewLink: string;
 	infoLink: string;
@@ -40,86 +40,86 @@ export interface VolumeInfo {
 	subtitle?: string;
 }
 
-export interface IndustryIdentifier {
+export interface BooksQueryIndustryIdentifier {
 	type: string;
 	identifier: string;
 }
 
-export interface ReadingModes {
+export interface BooksQueryReadingModes {
 	text: boolean;
 	image: boolean;
 }
 
-export interface PanelizationSummary {
+export interface BooksQueryPanelizationSummary {
 	containsEpubBubbles: boolean;
 	containsImageBubbles: boolean;
 }
 
-export interface ImageLinks {
+export interface BooksQueryImageLinks {
 	smallThumbnail: string;
 	thumbnail: string;
 }
 
-export interface SaleInfo {
+export interface BooksQuerySaleInfo {
 	country: string;
 	saleability: string;
 	isEbook: boolean;
-	listPrice?: SaleInfoListPrice;
-	retailPrice?: SaleInfoRetailPrice;
+	listPrice?: BooksQuerySaleInfoListPrice;
+	retailPrice?: BooksQuerySaleInfoRetailPrice;
 	buyLink?: string;
-	offers?: Offer[];
+	offers?: BooksQueryOffer[];
 }
 
-export interface SaleInfoListPrice {
+export interface BooksQuerySaleInfoListPrice {
 	amount: number;
 	currencyCode: string;
 }
 
-export interface SaleInfoRetailPrice {
+export interface BooksQuerySaleInfoRetailPrice {
 	amount: number;
 	currencyCode: string;
 }
 
-export interface Offer {
+export interface BooksQueryOffer {
 	finskyOfferType: number;
-	listPrice: Offer;
-	retailPrice: OfferRetailPrice;
+	listPrice: BooksQueryOffer;
+	retailPrice: BooksQueryOfferRetailPrice;
 	giftable: boolean;
 }
 
-export interface OfferListPrice {
+export interface BooksQueryOfferListPrice {
 	amountInMicros: number;
 	currencyCode: string;
 }
 
-export interface OfferRetailPrice {
+export interface BooksQueryOfferRetailPrice {
 	amountInMicros: number;
 	currencyCode: string;
 }
 
-export interface AccessInfo {
+export interface BooksQueryAccessInfo {
 	country: string;
 	viewability: string;
 	embeddable: boolean;
 	publicDomain: boolean;
 	textToSpeechPermission: string;
-	epub: Epub;
-	pdf: Pdf;
+	epub: BooksQueryEpub;
+	pdf: BooksQueryPdf;
 	webReaderLink: string;
 	accessViewStatus: string;
 	quoteSharingAllowed: boolean;
 }
 
-export interface Epub {
+export interface BooksQueryEpub {
 	isAvailable: boolean;
 	acsTokenLink?: string;
 }
 
-export interface Pdf {
+export interface BooksQueryPdf {
 	isAvailable: boolean;
 	acsTokenLink?: string;
 }
 
-export interface SearchInfo {
+export interface BooksQuerySearchInfo {
 	textSnippet: string;
 }

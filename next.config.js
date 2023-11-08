@@ -1,7 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	images: {
-		domains: ['covers.openlibrary.org'],
+		remotePatterns: [
+			{
+				protocol: 'http',
+				hostname: 'books.google.com',
+				pathname: '**',
+			},
+			{
+				protocol: 'https',
+				hostname: 'dummyimage.com',
+				pathname: '**',
+			},
+		],
 	},
 };
 

@@ -1,14 +1,13 @@
 'use client';
 
-import { Type } from '@/intefaces';
 import { Button, Typography } from '@mui/material';
 import { useState } from 'react';
 
 type DescriptionProps = {
-	text: string | Type;
+	text: string;
 };
 
-const TEXT_MAX_LENGTH = 900;
+const TEXT_MAX_LENGTH = 500;
 
 const Description = ({ text }: DescriptionProps) => {
 	const [showFullText, setShowFullText] = useState(false);
@@ -17,15 +16,15 @@ const Description = ({ text }: DescriptionProps) => {
 		setShowFullText(!showFullText);
 	};
 
-	const finalText = typeof text === 'string' ? text : text.value;
+	const description = text.replace(/<[^>]*>/g, '');
 
-	const textShouldExpand = finalText.length > TEXT_MAX_LENGTH;
+	const textShouldExpand = description.length > TEXT_MAX_LENGTH;
 
 	if (!showFullText && textShouldExpand) {
 		return (
 			<>
 				<Typography variant="body1" align="justify" fontSize="1rem">
-					{finalText.slice(0, TEXT_MAX_LENGTH)}...{' '}
+					{description.slice(0, TEXT_MAX_LENGTH)}...{' '}
 				</Typography>
 
 				<Button onClick={() => toggleShowFullText()} variant="contained">
@@ -38,7 +37,7 @@ const Description = ({ text }: DescriptionProps) => {
 	return (
 		<>
 			<Typography variant="body1" align="justify" fontSize="1rem">
-				{finalText}
+				{description}
 			</Typography>
 
 			{textShouldExpand && (

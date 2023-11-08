@@ -11,8 +11,8 @@ export const searchBooksByText = async (text: string): Promise<BooksQuery> => {
 	return data;
 };
 
-export const getBookByKey = async (key: string): Promise<Book> => {
-	const URI = `https://openlibrary.org/works/${key}.json`;
+export const getBookByKey = async (id: string): Promise<Book> => {
+	const URI = `https://www.googleapis.com/books/v1/volumes/${id}`;
 
 	const response = await fetch(URI);
 
