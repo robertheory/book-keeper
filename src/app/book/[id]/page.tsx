@@ -145,31 +145,39 @@ const Book = async ({ params: { id } }: BookProps) => {
 					</Stack>
 				)}
 
-				<Stack
-					direction="row"
-					justifyContent="flex-start"
-					alignItems="center"
-					flexWrap="wrap"
-					gap={2}
-				>
-					{categories.map((category, index) => (
-						<Stack key={category}>
-							<Typography
-								variant="body1"
-								fontWeight="300"
-								aria-label={category}
-							>
-								{category}
-							</Typography>
+				{categories && (
+					<Stack
+						direction="row"
+						justifyContent="flex-start"
+						alignItems="center"
+						flexWrap="wrap"
+						gap={2}
+					>
+						{categories.map((category, index) => (
+							<Stack key={category}>
+								<Typography
+									variant="body1"
+									fontWeight="300"
+									aria-label={category}
+								>
+									{category}
+								</Typography>
 
-							{index < categories.length - 1 && (
-								<Divider orientation="vertical" flexItem />
-							)}
-						</Stack>
-					))}
-				</Stack>
+								{index < categories.length - 1 && (
+									<Divider orientation="vertical" flexItem />
+								)}
+							</Stack>
+						))}
+					</Stack>
+				)}
 
-				<Description text={description} />
+				{description ? (
+					<Description text={description} />
+				) : (
+					<Typography variant="body1" fontWeight="300">
+						No description available
+					</Typography>
+				)}
 			</Stack>
 		</Stack>
 	);

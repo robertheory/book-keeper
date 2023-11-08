@@ -15,13 +15,13 @@ export interface VolumeInfo {
 	authors: string[];
 	publisher: string;
 	publishedDate: string;
-	description: string;
+	description?: string;
 	industryIdentifiers: IndustryIdentifier[];
 	readingModes: ReadingModes;
 	pageCount: number;
 	printedPageCount: number;
 	printType: string;
-	categories: string[];
+	categories?: string[];
 	averageRating: number;
 	ratingsCount: number;
 	maturityRating: string;
