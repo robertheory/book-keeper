@@ -1,7 +1,7 @@
 import { Languages } from '@/data/constants/languages';
 // eslint-disable-next-line import/extensions
 import notFoundPhrases from '@/data/notFoundPhrases.json';
-import { getBookByKey } from '@/services/book';
+import { getBookById } from '@/services/book';
 import { Divider, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import Description from './Description';
@@ -9,7 +9,7 @@ import Description from './Description';
 type BookProps = { params: { id: string } };
 
 export async function generateMetadata({ params: { id } }: BookProps) {
-	const book = await getBookByKey(id);
+	const book = await getBookById(id);
 
 	const index = Math.floor(Math.random() * notFoundPhrases.length);
 
@@ -93,7 +93,7 @@ export async function generateMetadata({ params: { id } }: BookProps) {
 }
 
 const Book = async ({ params: { id } }: BookProps) => {
-	const book = await getBookByKey(id);
+	const book = await getBookById(id);
 
 	if (!book) {
 		return {
