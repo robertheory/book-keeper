@@ -4,6 +4,7 @@ import { BookRecord } from '@/intefaces';
 import { Divider, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import Description from './Description';
+import ShareLinks from './ShareLinks';
 import ToggleButtons from './ToggleButtons';
 
 type BookDetailsProps = {
@@ -45,6 +46,8 @@ const BookDetails = async ({ book }: BookDetailsProps) => {
 		{ type: 'ISBN 13', identifier: isbn13 },
 	].filter(({ identifier }) => identifier);
 
+	const clipboardLink = `${process.env.NEXT_PUBLIC_VERCEL_URL}/book/${book.id}`;
+
 	return (
 		<Stack
 			width="100%"
@@ -79,6 +82,8 @@ const BookDetails = async ({ book }: BookDetailsProps) => {
 						borderRadius: '8px',
 					}}
 				/>
+
+				<ShareLinks url={clipboardLink} />
 			</Stack>
 
 			<Stack
