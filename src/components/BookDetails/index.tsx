@@ -46,8 +46,6 @@ const BookDetails = async ({ book }: BookDetailsProps) => {
 		{ type: 'ISBN 13', identifier: isbn13 },
 	].filter(({ identifier }) => identifier);
 
-	const clipboardLink = `${process.env.NEXT_PUBLIC_VERCEL_URL}/book/${book.id}`;
-
 	return (
 		<Stack
 			width="100%"
@@ -83,7 +81,7 @@ const BookDetails = async ({ book }: BookDetailsProps) => {
 					}}
 				/>
 
-				<ShareLinks url={clipboardLink} />
+				<ShareLinks bookId={book.id} />
 			</Stack>
 
 			<Stack

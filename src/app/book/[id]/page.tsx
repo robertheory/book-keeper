@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/extensions
 import BookDetails from '@/components/BookDetails';
+import { siteURL } from '@/data/constants';
 // eslint-disable-next-line import/extensions
 import notFoundPhrases from '@/data/notFoundPhrases.json';
 import { getBookById } from '@/services/book';
@@ -14,7 +15,7 @@ export async function generateMetadata({ params: { id } }: BookProps) {
 
 	const descriptionNotFoundText = notFoundPhrases[index];
 
-	const siteURL = `${process.env.VERCEL_URL}/book/${id}`;
+	const pageURL = `${siteURL}/book/${id}`;
 
 	if (!book) {
 		return {
@@ -71,7 +72,7 @@ export async function generateMetadata({ params: { id } }: BookProps) {
 			description,
 			image,
 			type: 'website',
-			url: siteURL,
+			url: pageURL,
 			site_name: 'The Book Keeper',
 		},
 		twitter: {
