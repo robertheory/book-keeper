@@ -1,6 +1,6 @@
 'use client';
 
-import { Book } from '@/intefaces';
+import { BookRecord } from '@/intefaces';
 import { listsSliceState } from '@/store/listsSlice';
 import {
 	Bookmark,
@@ -12,7 +12,7 @@ import { Stack } from '@mui/system';
 import ToggleButton from './ToggleButton';
 
 type ToggleButtonsProps = {
-	book: Book;
+	book: BookRecord;
 };
 
 type buttonsType = {

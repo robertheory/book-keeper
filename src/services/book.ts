@@ -1,15 +1,6 @@
-import { BooksQuery } from '@/intefaces';
+import { BookRecord, BooksQuery } from '@/intefaces';
 import { Book } from '@/intefaces/Book';
-import { BookRecord } from '@/intefaces/Records';
-
-const lists = {
-	favorites: [],
-	toRead: [],
-	reading: [],
-	read: [],
-} as {
-	[x: string]: BookRecord[];
-};
+import { bookToRecordMapper } from '@/utils/mappers';
 
 export const searchBooksByText = async (text: string): Promise<BooksQuery> => {
 	const URI = `https://www.googleapis.com/books/v1/volumes?q=${text}`;
@@ -21,7 +12,7 @@ export const searchBooksByText = async (text: string): Promise<BooksQuery> => {
 	return data;
 };
 
-export const getBookById = async (id: string): Promise<Book> => {
+export const getBookById = async (id: string): Promise<BookRecord> => {
 	const URI = `https://www.googleapis.com/books/v1/volumes/${id}`;
 
 	const response = await fetch(URI, {
@@ -37,5 +28,5 @@ export const getBookById = async (id: string): Promise<Book> => {
 		throw new Error('Book not found');
 	}
 
-	return data;
+	return bookToRecordMapper(data);
 };

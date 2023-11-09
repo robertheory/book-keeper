@@ -45,7 +45,9 @@ export const modalStyle = {
 	boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.2)',
 	p: 4,
 	width: '90%',
-	maxWidth: '600px',
+	maxWidth: '900px',
 	maxHeight: '90%',
+	height: 'fit-content',
 	borderRadius: '1rem',
+	overflow: 'auto',
 } as CSSProperties;

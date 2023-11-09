@@ -1,5 +1,4 @@
-import { Book, BookRecord } from '@/intefaces';
-import { bookToRecordMapper } from '@/utils/mappers';
+import { BookRecord } from '@/intefaces';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '.';
 
@@ -19,7 +18,7 @@ const initialState: listsSliceState = {
 
 type toggleFromListPayload = {
 	payload: {
-		book: Book;
+		book: BookRecord;
 		list: keyof listsSliceState;
 	};
 };
@@ -52,9 +51,7 @@ export const listsSlice = createSlice({
 			if (!alreadyExists) {
 				removeFromLists(book.id, state);
 
-				const newBookRecord = bookToRecordMapper(book);
-
-				state[list].push(newBookRecord);
+				state[list].push(book);
 
 				return;
 			}

@@ -1,6 +1,6 @@
 'use client';
 
-import { Book } from '@/intefaces';
+import { BookRecord } from '@/intefaces';
 import {
 	existsInList,
 	listsSliceState,
@@ -15,7 +15,7 @@ type ToggleButtonProps = {
 	title: string;
 	Icon: typeof Favorite;
 	list: keyof listsSliceState;
-	book: Book;
+	book: BookRecord;
 };
 
 const ToggleButton = ({ title, Icon, list, book }: ToggleButtonProps) => {

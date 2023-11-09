@@ -1,3 +1,4 @@
+import { Languages } from '@/data/constants/languages';
 import { Book, BookRecord } from '@/intefaces';
 
 export const bookToRecordMapper = (book: Book): BookRecord => {
@@ -8,12 +9,19 @@ export const bookToRecordMapper = (book: Book): BookRecord => {
 		(item) => item.type === 'ISBN_13'
 	)?.identifier;
 
+	const language =
+		Languages[
+			String(book.volumeInfo.language).toUpperCase() as keyof typeof Languages
+		] ||
+		book.volumeInfo.language ||
+		'Unknown';
+
 	return {
 		id: book.id,
 		title: book.volumeInfo.title,
 		subtitle: book.volumeInfo.subtitle,
 		authors: book.volumeInfo.authors,
-		language: book.volumeInfo.language,
+		language,
 		pageCount: book.volumeInfo.pageCount,
 		publishedDate: book.volumeInfo.publishedDate,
 		publisher: book.volumeInfo.publisher,
