@@ -45,7 +45,7 @@ const Favorites = () => {
 						fontWeight="800"
 						fontSize="2.5rem"
 					>
-						No favorites yet
+						No books yet
 					</Typography>
 				</Stack>
 			) : (

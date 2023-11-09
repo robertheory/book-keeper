@@ -70,9 +70,8 @@ export const { toggleFromList } = listsSlice.actions;
 
 export const getLists = () => (state: RootState) => state.lists;
 
-export const getList =
-	() => (list: keyof listsSliceState) => (state: RootState) =>
-		state.lists[list];
+export const getList = (list: keyof listsSliceState) => (state: RootState) =>
+	state.lists[list];
 
 export const existsInList =
 	(list: keyof listsSliceState, bookId: string) => (state: RootState) =>
