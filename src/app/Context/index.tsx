@@ -17,8 +17,8 @@ const AppProvider = ({ children }: IAppProviderProps) => (
 		<ReduxProvider>
 			<SnackbarProvider
 				anchorOrigin={{
-					horizontal: 'right',
-					vertical: 'top',
+					horizontal: 'left',
+					vertical: 'bottom',
 				}}
 			>
 				{children}
