@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import { defaultMetadata } from '@/data/constants/metadata';
 import { Inter } from 'next/font/google';
 import { ReactNode } from 'react';
 import Layout from '../components/Layout';
@@ -6,11 +6,7 @@ import AppProvider from './Context';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata: Metadata = {
-	title: 'The Book Keeper',
-	description:
-		'While you revel in books, our vigilant looks, shall keep them safe in all the nooks.',
-};
+export const metadata = defaultMetadata;
 
 const RootLayout = ({ children }: { children: ReactNode }) => (
 	<html lang="en">
