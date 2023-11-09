@@ -9,7 +9,15 @@ const image =
 	'https://dummyimage.com/400x200/a6a6a6/ffffff.png&text=The%20Book%20Keeper';
 
 export const defaultMetadata: Metadata = {
+	manifest: '/manifest.json',
 	title,
+	icons: [
+		{
+			url: '/logo.webp',
+			sizes: '192x192',
+			type: 'image/webp',
+		},
+	],
 	description,
 	robots: 'index, follow',
 	referrer: 'origin',

@@ -1,0 +1,18 @@
+{
+	"id": "/?source=pwa",
+	"icons": [
+		{
+			"src": "/logo.webp",
+			"sizes": "any",
+			"type": "image/webp"
+		}
+	],
+	"name": "The Book Keeper",
+	"short_name": "BooKeeper",
+	"start_url": "/?source=pwa",
+	"theme_color": "#f7ea79",
+	"background_color": "#fafafa",
+	"display": "standalone",
+	"scope": "/",
+	"description": "While you revel in books, our vigilant looks, shall keep them safe in all the nooks."
+}
