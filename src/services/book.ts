@@ -1,5 +1,15 @@
 import { BooksQuery } from '@/intefaces';
 import { Book } from '@/intefaces/Book';
+import { BookRecord } from '@/intefaces/Records';
+
+const lists = {
+	favorites: [],
+	toRead: [],
+	reading: [],
+	read: [],
+} as {
+	[x: string]: BookRecord[];
+};
 
 export const searchBooksByText = async (text: string): Promise<BooksQuery> => {
 	const URI = `https://www.googleapis.com/books/v1/volumes?q=${text}`;

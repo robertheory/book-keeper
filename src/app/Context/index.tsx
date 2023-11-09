@@ -1,3 +1,6 @@
+'use client';
+
+import { ReduxProvider } from '@/store/ReduxProvider';
 import { global } from '@/styles/globalStyles';
 import { theme } from '@/styles/theme';
 import { GlobalStyles, ThemeProvider } from '@mui/material';
@@ -10,7 +13,7 @@ interface IAppProviderProps {
 const AppProvider = ({ children }: IAppProviderProps) => (
 	<ThemeProvider theme={theme}>
 		<GlobalStyles styles={global.styles} />
-		{children}
+		<ReduxProvider>{children}</ReduxProvider>
 	</ThemeProvider>
 );
 
