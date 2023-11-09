@@ -6,6 +6,7 @@ import { escapeHtml } from '@/utils/formatting';
 import { Divider, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import Description from './Description';
+import ToggleButtons from './ToggleButtons';
 
 type BookProps = { params: { id: string } };
 
@@ -159,7 +160,16 @@ const Book = async ({ params: { id } }: BookProps) => {
 			}}
 			gap={2}
 		>
-			{image && <Image src={image} alt={title} width={200} height={300} />}
+			<Stack
+				direction="column"
+				justifyContent="flex-start"
+				alignItems="center"
+				gap={2}
+			>
+				<ToggleButtons book={book} />
+
+				<Image src={image} alt={title} width={200} height={300} />
+			</Stack>
 
 			<Stack
 				width="100%"
