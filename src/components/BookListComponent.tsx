@@ -1,6 +1,7 @@
 'use client';
 
 import BookCard from '@/components/BookCard';
+import { pageTitleByListName } from '@/data/constants/lists';
 import { getList, listsSliceState } from '@/store/listsSlice';
 import { Stack, Typography } from '@mui/material';
 import Image from 'next/image';
@@ -8,15 +9,6 @@ import { useSelector } from 'react-redux';
 
 type BookListComponentProps = {
 	listName: keyof listsSliceState;
-};
-
-const listNames: {
-	[key in keyof listsSliceState]: string;
-} = {
-	toRead: 'Books to read',
-	favorites: 'Favorite books',
-	read: 'Read books',
-	reading: 'Reading books',
 };
 
 const BookListComponent = ({ listName }: BookListComponentProps) => {
@@ -33,7 +25,7 @@ const BookListComponent = ({ listName }: BookListComponentProps) => {
 			gap={4}
 		>
 			<Typography variant="h1" fontWeight="600" fontSize="2rem">
-				{listNames[listName]}
+				{pageTitleByListName[listName]}
 			</Typography>
 
 			{isEmpty ? (

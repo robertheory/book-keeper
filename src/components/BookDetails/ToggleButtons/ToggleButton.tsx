@@ -1,5 +1,6 @@
 'use client';
 
+import { listNameByType } from '@/data/constants/lists';
 import { BookRecord } from '@/intefaces';
 import {
 	existsInList,
@@ -8,6 +9,7 @@ import {
 } from '@/store/listsSlice';
 import { Favorite } from '@mui/icons-material';
 import { Button, Tooltip } from '@mui/material';
+import { useSnackbar } from 'notistack';
 import { createElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -23,7 +25,21 @@ const ToggleButton = ({ title, Icon, list, book }: ToggleButtonProps) => {
 
 	const dispatch = useDispatch();
 
+	const { enqueueSnackbar } = useSnackbar();
+
 	const handleToggle = () => {
+		const listName = listNameByType[list];
+
+		enqueueSnackbar(
+			isActive
+				? `Removed from ${listName}`
+				: `Added
+		to ${listName}`,
+			{
+				variant: isActive ? 'error' : 'success',
+			}
+		);
+
 		dispatch(
 			toggleFromList({
 				list,
