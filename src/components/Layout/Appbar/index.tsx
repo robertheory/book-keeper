@@ -1,4 +1,5 @@
 'use client';
+import useDebounce from '@/app/Context/useDebounce';
 import { BooksQuery } from '@/intefaces';
 import { searchBooksByText } from '@/services/book';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -7,8 +8,7 @@ import { Menu } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { ChangeEvent, useRef, useState } from 'react';
 import SearchResultItem from './SearchResultItem';
 import {
 	CustomAppBar,
@@ -23,21 +23,14 @@ type AppbarProps = {
 };
 
 const Appbar = ({ isOpen, handleDrawerOpen }: AppbarProps) => {
+	const { debounce } = useDebounce();
+
+	const [searchText, setSearchText] = useState<string>('');
 	const [bookSearchResults, setBookSearchResults] = useState<BooksQuery | null>(
 		null
 	);
 
 	const searchFormRef = useRef<HTMLDivElement>(null);
-
-	const {
-		handleSubmit,
-		register,
-		formState: { isSubmitting },
-	} = useForm({
-		defaultValues: {
-			search: '',
-		},
-	});
 
 	const onSubmit = async (data: { search: string }) => {
 		const response = await searchBooksByText(data.search);
@@ -45,6 +38,13 @@ const Appbar = ({ isOpen, handleDrawerOpen }: AppbarProps) => {
 		if (response) {
 			setBookSearchResults(response);
 		}
+	};
+
+	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setSearchText(event.target.value);
+
+		if (event.target.value.length > 2)
+			debounce(onSubmit, 1000)({ search: event.target.value });
 	};
 
 	return (
@@ -68,18 +68,17 @@ const Appbar = ({ isOpen, handleDrawerOpen }: AppbarProps) => {
 					The Book Keeper
 				</Typography>
 
-				<Search as="form" onSubmit={handleSubmit(onSubmit)} ref={searchFormRef}>
+				<Search ref={searchFormRef}>
 					<SearchIconWrapper>
 						<SearchIcon color="action" />
 					</SearchIconWrapper>
 					<StyledInputBase
-						{...register('search', {
-							disabled: isSubmitting,
-						})}
 						name="search"
 						placeholder="Search…"
 						inputProps={{ 'aria-label': 'search' }}
 						autoComplete="off"
+						value={searchText}
+						onChange={handleChange}
 					/>
 				</Search>
 
