@@ -1,4 +1,6 @@
-export const registerServiceWorker = async () => {
+'use client';
+
+const registerServiceWorker = async () => {
 	if ('serviceWorker' in navigator) {
 		try {
 			const registration = await navigator.serviceWorker.register('/sw.js', {
@@ -16,3 +18,5 @@ export const registerServiceWorker = async () => {
 		}
 	}
 };
+
+if (typeof window !== 'undefined') registerServiceWorker();
