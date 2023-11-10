@@ -1,12 +1,12 @@
 import { Book } from '@/intefaces';
-import { ReadingList, ReadingListName } from '@/intefaces/ReadingLists';
+import { ReadingListItem, ReadingListName } from '@/intefaces/ReadingLists';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '.';
 
 export type listsSliceState = {
 	favorites: Book[];
 	readingLists: {
-		[name in keyof ReadingList]: ReadingList[name];
+		[name in ReadingListName]: ReadingListItem[];
 	};
 };
 
@@ -20,13 +20,13 @@ const initialState: listsSliceState = {
 };
 
 type readingListsPayload = {
-	list: keyof ReadingList;
+	list: ReadingListName;
 	book: Book;
 };
 
 type changeReadingListPayload = {
-	listFrom: keyof ReadingList;
-	listTo: keyof ReadingList;
+	listFrom: ReadingListName;
+	listTo: ReadingListName;
 	book: Book;
 };
 
@@ -58,6 +58,36 @@ export const listsSlice = createSlice({
 			);
 
 			if (alreadyExists) {
+				return;
+			}
+
+			const existsInOtherList = Object.keys(state.readingLists).find(
+				(listName) =>
+					listName !== list &&
+					state.readingLists[listName as ReadingListName].find(
+						(item) => item.book.id === book.id
+					)
+			);
+
+			if (existsInOtherList) {
+				const index = state.readingLists[
+					existsInOtherList as ReadingListName
+				].findIndex((item) => item.book.id === book.id);
+
+				if (index === -1) {
+					return;
+				}
+
+				const readingItem =
+					state.readingLists[existsInOtherList as ReadingListName][index];
+
+				state.readingLists[existsInOtherList as ReadingListName].splice(
+					index,
+					1
+				);
+
+				state.readingLists[list].push(readingItem);
+
 				return;
 			}
 
@@ -124,6 +154,16 @@ export const getFavorites = () => (state: RootState) => state.lists.favorites;
 export const existsInList =
 	(list: ReadingListName, bookId: string) => (state: RootState) =>
 		state.lists.readingLists[list].find((item) => item.book.id === bookId);
+
+export const existsInOtherList =
+	(currentList: ReadingListName, bookId: string) => (state: RootState) =>
+		!!Object.keys(state.lists.readingLists).find(
+			(listName) =>
+				listName !== currentList &&
+				state.lists.readingLists[listName as ReadingListName].find(
+					(item) => item.book.id === bookId
+				)
+		);
 
 export const isFavorite = (bookId: string) => (state: RootState) =>
 	!!state.lists.favorites.find((item) => item.id === bookId);
