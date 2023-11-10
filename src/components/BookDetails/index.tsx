@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/extensions
 import notFoundPhrases from '@/data/notFoundPhrases.json';
-import { BookRecord } from '@/intefaces';
+import { Book } from '@/intefaces';
 import { Divider, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import Description from './Description';
@@ -8,7 +8,7 @@ import ShareLinks from './ShareLinks';
 import ToggleButtons from './ToggleButtons';
 
 type BookDetailsProps = {
-	book: BookRecord;
+	book: Book;
 };
 
 const BookDetails = async ({ book }: BookDetailsProps) => {

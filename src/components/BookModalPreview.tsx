@@ -1,13 +1,13 @@
 'use client';
 
-import { BookRecord } from '@/intefaces';
+import { Book } from '@/intefaces';
 import { modalStyle } from '@/styles/globalStyles';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import BookDetails from '../BookDetails';
+import BookDetails from './BookDetails';
 
 type BookModalPreviewProps = {
-	book: BookRecord;
+	book: Book;
 	isOpen: boolean;
 	handleCloseModal: () => void;
 };

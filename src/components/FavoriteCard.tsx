@@ -1,4 +1,4 @@
-import { BookRecord } from '@/intefaces';
+import { Book } from '@/intefaces';
 import { escapeHtml } from '@/utils/formatting';
 import { CardActionArea, Divider, Stack } from '@mui/material';
 import Card from '@mui/material/Card';
@@ -8,11 +8,11 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import BookModalPreview from './BookModalPreview';
 
-type BookCardProps = {
-	book: BookRecord;
+type FavoriteCardProps = {
+	book: Book;
 };
 
-const BookCard = ({ book }: BookCardProps) => {
+const FavoriteCard = ({ book }: FavoriteCardProps) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const imageURL =
@@ -91,4 +91,4 @@ const BookCard = ({ book }: BookCardProps) => {
 	);
 };
 
-export default BookCard;
+export default FavoriteCard;

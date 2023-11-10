@@ -1,77 +1,131 @@
-import { BookRecord } from '@/intefaces';
+import { Book } from '@/intefaces';
+import { ReadingList, ReadingListName } from '@/intefaces/ReadingLists';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '.';
 
 export type listsSliceState = {
-	favorites: BookRecord[];
-	toRead: BookRecord[];
-	reading: BookRecord[];
-	read: BookRecord[];
+	favorites: Book[];
+	readingLists: {
+		[name in keyof ReadingList]: ReadingList[name];
+	};
 };
 
 const initialState: listsSliceState = {
 	favorites: [],
-	toRead: [],
-	reading: [],
-	read: [],
+	readingLists: {
+		toRead: [],
+		reading: [],
+		read: [],
+	},
 };
 
-type toggleFromListPayload = {
-	payload: {
-		book: BookRecord;
-		list: keyof listsSliceState;
-	};
+type readingListsPayload = {
+	list: keyof ReadingList;
+	book: Book;
 };
 
-const removeFromList = (list: BookRecord[], bookId: string) => {
-	const index = list.findIndex((item) => item.id === bookId);
-
-	if (index !== -1) {
-		list.splice(index, 1);
-	}
-};
-
-const removeFromLists = (bookId: string, lists: listsSliceState) => {
-	removeFromList(lists.favorites, bookId);
-	removeFromList(lists.toRead, bookId);
-	removeFromList(lists.reading, bookId);
-	removeFromList(lists.read, bookId);
+type changeReadingListPayload = {
+	listFrom: keyof ReadingList;
+	listTo: keyof ReadingList;
+	book: Book;
 };
 
 export const listsSlice = createSlice({
 	name: 'lists',
 	initialState,
 	reducers: {
-		toggleFromList: (
+		toggleFavorite: (
 			state,
-			{ payload: { book, list } }: toggleFromListPayload
+			{
+				payload,
+			}: {
+				payload: Book;
+			}
 		) => {
-			const alreadyExists = state[list].find((item) => item.id === book.id);
+			const index = state.favorites.findIndex((item) => item.id === payload.id);
+			if (index === -1) {
+				state.favorites.push(payload);
+			} else {
+				state.favorites.splice(index, 1);
+			}
+		},
+		createReadingItem: (
+			state,
+			{ payload: { book, list } }: { payload: readingListsPayload }
+		) => {
+			const alreadyExists = state.readingLists[list].find(
+				(item) => item.book.id === book.id
+			);
 
-			if (!alreadyExists) {
-				removeFromLists(book.id, state);
-
-				state[list].push(book);
-
+			if (alreadyExists) {
 				return;
 			}
 
-			const index = state[list].findIndex((item) => item.id === book.id);
+			const newReadingItem = {
+				book,
+				currentPage: 0,
+				elapsedTime: 0,
+				notes: [],
+			};
 
-			state[list].splice(index, 1);
+			state.readingLists[list].push(newReadingItem);
+		},
+		removeReadingItem: (
+			state,
+			{ payload: { book, list } }: { payload: readingListsPayload }
+		) => {
+			const index = state.readingLists[list].findIndex(
+				(item) => item.book.id === book.id
+			);
+
+			if (index === -1) {
+				return;
+			}
+
+			state.readingLists[list].splice(index, 1);
+		},
+		changeReadingList: (
+			state,
+			{
+				payload: { listFrom, listTo, book },
+			}: { payload: changeReadingListPayload }
+		) => {
+			const index = state.readingLists[listFrom].findIndex(
+				(item) => item.book.id === book.id
+			);
+
+			if (index === -1) {
+				return;
+			}
+
+			const readingItem = state.readingLists[listFrom][index];
+
+			state.readingLists[listFrom].splice(index, 1);
+
+			state.readingLists[listTo].push(readingItem);
 		},
 	},
 });
 
-export const { toggleFromList } = listsSlice.actions;
+export const {
+	toggleFavorite,
+	changeReadingList,
+	createReadingItem,
+	removeReadingItem,
+} = listsSlice.actions;
 
 export const getLists = () => (state: RootState) => state.lists;
 
-export const getList = (list: keyof listsSliceState) => (state: RootState) =>
-	state.lists[list];
+export const getList = (list: ReadingListName) => (state: RootState) =>
+	state.lists.readingLists[list];
+
+export const getFavorites = () => (state: RootState) => state.lists.favorites;
 
 export const existsInList =
-	(list: keyof listsSliceState, bookId: string) => (state: RootState) =>
-		state.lists[list].find((item) => item.id === bookId);
+	(list: ReadingListName, bookId: string) => (state: RootState) =>
+		state.lists.readingLists[list].find((item) => item.book.id === bookId);
+
+export const isFavorite = (bookId: string) => (state: RootState) =>
+	!!state.lists.favorites.find((item) => item.id === bookId);
 
 export default listsSlice.reducer;

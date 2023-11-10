@@ -1,20 +1,21 @@
 'use client';
 
-import BookCard from '@/components/BookCard';
 import { pageTitleByListName } from '@/data/constants/lists';
-import { getList, listsSliceState } from '@/store/listsSlice';
+import { ReadingListName } from '@/intefaces/ReadingLists';
+import { getList } from '@/store/listsSlice';
 import { Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import { useSelector } from 'react-redux';
+import ReadingItemCard from './ReadingItemCard';
 
 type BookListComponentProps = {
-	listName: keyof listsSliceState;
+	listName: ReadingListName;
 };
 
 const BookListComponent = ({ listName }: BookListComponentProps) => {
-	const list = useSelector(getList(listName));
+	const readlistItems = useSelector(getList(listName));
 
-	const isEmpty = list.length === 0;
+	const isEmpty = readlistItems.length === 0;
 
 	return (
 		<Stack
@@ -55,15 +56,17 @@ const BookListComponent = ({ listName }: BookListComponentProps) => {
 				</Stack>
 			) : (
 				<Stack
-					direction="row"
+					direction="column"
 					width="100%"
 					justifyContent="flex-start"
-					alignItems="flex-start"
+					alignItems="center"
 					gap={2}
-					flexWrap="wrap"
 				>
-					{list.map((book) => (
-						<BookCard key={book.id} book={book} />
+					{readlistItems.map((readlistItem) => (
+						<ReadingItemCard
+							readingItem={readlistItem}
+							key={readlistItem.book.id}
+						/>
 					))}
 				</Stack>
 			)}

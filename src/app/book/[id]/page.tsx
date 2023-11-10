@@ -51,11 +51,7 @@ export async function generateMetadata({ params: { id } }: BookProps) {
 		};
 	}
 
-	const { title } = book;
-
-	const image =
-		book.image ||
-		'https://dummyimage.com/200x300/a6a6a6/ffffff.png&text=No+image';
+	const { title, image } = book;
 
 	const twitter = '@appbookeeper';
 

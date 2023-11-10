@@ -1,32 +1,30 @@
 'use client';
 
-import { BookRecord } from '@/intefaces';
-import { listsSliceState } from '@/store/listsSlice';
+import { Book } from '@/intefaces';
+import { ReadingListName } from '@/intefaces/ReadingLists';
+import { isFavorite, toggleFavorite } from '@/store/listsSlice';
 import {
 	Bookmark,
 	BookmarkAdded,
 	BookmarkBorder,
 	Favorite,
 } from '@mui/icons-material';
+import { Button, Tooltip } from '@mui/material';
 import { Stack } from '@mui/system';
+import { useDispatch, useSelector } from 'react-redux';
 import ToggleButton from './ToggleButton';
 
 type ToggleButtonsProps = {
-	book: BookRecord;
+	book: Book;
 };
 
 type buttonsType = {
+	list: ReadingListName;
 	title: string;
 	icon: any;
-	list: keyof listsSliceState;
 };
 
 const buttons: buttonsType[] = [
-	{
-		title: 'Favorite book',
-		icon: Favorite,
-		list: 'favorites',
-	},
 	{
 		title: 'Add to to-read list',
 		icon: BookmarkBorder,
@@ -45,6 +43,9 @@ const buttons: buttonsType[] = [
 ];
 
 const ToggleButtons = ({ book }: ToggleButtonsProps) => {
+	const dispatch = useDispatch();
+	const isFavoriteAcrive = useSelector(isFavorite(book.id));
+
 	return (
 		<Stack
 			width="100%"
@@ -53,6 +54,21 @@ const ToggleButtons = ({ book }: ToggleButtonsProps) => {
 			alignItems="center"
 			gap={2}
 		>
+			<Tooltip title="Toggle favorite">
+				<Button
+					type="button"
+					variant="text"
+					onClick={() => dispatch(toggleFavorite(book))}
+				>
+					<Favorite
+						color={isFavoriteAcrive ? 'error' : 'action'}
+						sx={{
+							transitions: 'all 1s ease-in-out',
+						}}
+					/>
+				</Button>
+			</Tooltip>
+
 			{buttons.map(({ title, icon: Icon, list }) => (
 				<ToggleButton
 					key={title}
